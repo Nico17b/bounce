@@ -18,9 +18,19 @@
       display: block;
       margin: 10px;
     }
+	#theme-switcher {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background-color: #ccc;
+      padding: 5px 10px;
+      border: none;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
+  <button id="theme-switcher" onclick="toggleTheme()">Switch Theme</button>
   <input type="file" id="logo-upload" accept="image/*">
   <img id="bouncing-image" src="" alt="Bouncing Image">
   <script src="script.js"></script>
