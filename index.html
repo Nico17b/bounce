@@ -1,38 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bouncing Image</title>
-  <style>
-    body, html {
-      margin: 0;
-      padding: 0;
-      overflow: hidden;
-      height: 100%;
-    }
-    #bouncing-image {
-      position: absolute;
-    }
-    #logo-upload {
-      display: block;
-      margin: 10px;
-    }
-	#theme-switcher {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      background-color: #ccc;
-      padding: 5px 10px;
-      border: none;
-      cursor: pointer;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DVD Screen Bounce</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+            background-color: #ffffff;
+        }
+        #dvd-logo {
+            position: absolute;
+            width: 200px;
+            height: 100px;
+        }
+        #file-input {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            z-index: 1000;
+            color: white;
+        }
+    </style>
 </head>
 <body>
-  <button id="theme-switcher" onclick="toggleTheme()">Switch Theme</button>
-  <input type="file" id="logo-upload" accept="image/*">
-  <img id="bouncing-image" src="" alt="Bouncing Image">
-  <script src="script.js"></script>
+    <input type="file" id="file-input" accept="image/*">
+    <img id="dvd-logo" src="https://upload.wikimedia.org/wikipedia/commons/9/9b/DVD_logo.svg" alt="DVD Logo">
+    <script>
+        const logo = document.getElementById('dvd-logo');
+        const fileInput = document.getElementById('file-input');
+        let x = 0, y = 0;
+        let xSpeed = 2, ySpeed = 2;
+
+        fileInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    logo.src = event.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        function animate() {
+            const maxX = window.innerWidth - logo.width;
+            const maxY = window.innerHeight - logo.height;
+
+            x += xSpeed;
+            y += ySpeed;
+
+            if (x <= 0 || x >= maxX) xSpeed = -xSpeed;
+            if (y <= 0 || y >= maxY) ySpeed = -ySpeed;
+
+            logo.style.left = x + 'px';
+            logo.style.top = y + 'px';
+
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+    </script>
 </body>
 </html>
